@@ -54,8 +54,13 @@ class Handler extends ExceptionHandler
         return parent::render($request, $exception);
     }
 
+    /**
+    * @param \Illuminate\Http\Request $request
+    * @param AuthenticationException $exception
+    * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+    */
     protected function unauthenticated($request, AuthenticationException $exception)
-{
+    {
     if ($request->expectsJson()) {
         return response()->json(['message' => $exception->getMessage()], 401);
     }
@@ -69,5 +74,6 @@ class Handler extends ExceptionHandler
             break;
     }
     return redirect()->guest(route($login));
+    }
 }
-}
+
